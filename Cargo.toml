@@ -1,0 +1,12 @@
+[package]
+name = "build-pop-container"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cascade = "1.0.1"
+distinst-chroot = { git = "https://github.com/pop-os/distinst/" }
+distinst = { path = "../../distinst" }
+sudo = "0.6.0"
