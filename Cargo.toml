@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 cascade = "1.0.1"
 distinst-chroot = { git = "https://github.com/pop-os/distinst/" }
-distinst = { path = "../../distinst" }
+distinst = { path = "../distinst" }
 sudo = "0.6.0"

@@ -4,7 +4,7 @@ use std::{str, io};
 use distinst::steps::configure::ChrootConfigurator;
 use distinst::chroot::Chroot;
 use sudo;
-use cascade::cascade;
+//use cascade::cascade;
 
 fn main() -> Result<(), Errors> {
 
@@ -17,14 +17,9 @@ fn main() -> Result<(), Errors> {
   let output = Command::new("buildah").args(["mount", &container]).output()?;
   let len = output.stdout.len() - 1;
   let mount_point = str::from_utf8(&output.stdout[..len])?;
-  println!("{mount_point}");
-  println!("outputs done");
 
-  Command::new("mkdir").arg(format!("{mount_point}/dev")).status();
-  Command::new("mkdir").arg(format!("{mount_point}/proc")).status();
-  Command::new("mkdir").arg(format!("{mount_point}/run")).status();
-  Command::new("mkdir").arg(format!("{mount_point}/sys")).status();
-  Command::new("mkdir").args(["-p", &format!("{mount_point}/usr/bin")]).status();
+  let output = Command::new("debootstrap").args(["--variant=minbase", "stable", mount_point, "http://deb.debian.org/debian"]).output();
+  println!("{:?}", output);
   
   // Install into container
   {
@@ -39,17 +34,15 @@ fn main() -> Result<(), Errors> {
   let chroot = ChrootConfigurator::new(chroot);
   chroot.apt_install(&["hello"]);
   }
-  let output = Command::new("ls").args(["-R", &format!("mount_point")]).output()?;
-  println!("{:#?}", str::from_utf8(&output.stdout)?);
   /*
   println!("chroot setup done");
+  */
 
 
 
-*/
-
-  println!("done");
-  Command::new("buildah").args(["commit", "--squash", container, "pop-container"]).status();
+  let output = Command::new("buildah").args(["commit", "--squash", "--rm", &container, "pop-container"]).output()?;
+  let len = output.stdout.len() - 1;
+  println!("{:?}", str::from_utf8(&output.stdout[..len])?);
 
     Ok(())
 }
