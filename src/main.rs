@@ -18,7 +18,7 @@ fn main() -> Result<(), Errors> {
   let len = output.stdout.len() - 1;
   let mount_point = str::from_utf8(&output.stdout[..len])?;
 
-  let output = Command::new("debootstrap").args(["--variant=minbase", "stable", mount_point, "http://deb.debian.org/debian"]).output();
+  let output = Command::new("debootstrap").args(["--variant=minbase", "jammy", mount_point, "http://archive.ubuntu.com/ubuntu/"]).output();
   println!("{:?}", output);
   
   // Install into container
