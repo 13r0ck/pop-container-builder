@@ -30,7 +30,6 @@ fn main() -> Result<(), Errors> {
     .format_indent(None)
     .format_target(false)
     .init();
-    info!("{username:?}");
 
     info!("Creating Container.");
     let output = Command::new("buildah").args(["from", "scratch"]).output()?;

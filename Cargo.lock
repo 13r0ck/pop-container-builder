@@ -151,7 +151,6 @@ name = "build-pop-container"
 version = "0.1.0"
 dependencies = [
  "distinst",
- "distinst-chroot 0.1.0 (git+https://github.com/pop-os/distinst/)",
  "env_logger 0.10.0",
  "log",
  "sudo",
@@ -439,6 +438,7 @@ dependencies = [
 [[package]]
 name = "disk-types"
 version = "0.1.5"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "err-derive 0.3.1",
  "libparted",
@@ -452,6 +452,7 @@ dependencies = [
 [[package]]
 name = "distinst"
 version = "0.5.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "anyhow",
  "apt-cli-wrappers",
@@ -461,7 +462,7 @@ dependencies = [
  "dirs",
  "disk-types",
  "distinst-bootloader",
- "distinst-chroot 0.1.0",
+ "distinst-chroot",
  "distinst-disks",
  "distinst-external-commands",
  "distinst-hardware-support",
@@ -495,21 +496,12 @@ dependencies = [
 [[package]]
 name = "distinst-bootloader"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 
 [[package]]
 name = "distinst-chroot"
 version = "0.1.0"
-dependencies = [
- "cascade 1.0.1",
- "libc",
- "log",
- "sys-mount",
-]
-
-[[package]]
-name = "distinst-chroot"
-version = "0.1.0"
-source = "git+https://github.com/pop-os/distinst/#a5bdb0c22279fd83884e040ca7bb50ff41650be8"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "cascade 1.0.1",
  "libc",
@@ -520,6 +512,7 @@ dependencies = [
 [[package]]
 name = "distinst-disk-ops"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "derive-new",
  "disk-types",
@@ -536,6 +529,7 @@ dependencies = [
 [[package]]
 name = "distinst-disks"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "bitflags",
  "derive-new",
@@ -565,6 +559,7 @@ dependencies = [
 [[package]]
 name = "distinst-external-commands"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "disk-types",
  "distinst-utils",
@@ -579,6 +574,7 @@ dependencies = [
 [[package]]
 name = "distinst-hardware-support"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "dbus 0.9.7",
  "distinst-utils",
@@ -591,6 +587,7 @@ dependencies = [
 [[package]]
 name = "distinst-locale-support"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "distinst-utils",
  "gettext-rs",
@@ -605,6 +602,7 @@ dependencies = [
 [[package]]
 name = "distinst-squashfs"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "libc",
  "log",
@@ -613,10 +611,12 @@ dependencies = [
 [[package]]
 name = "distinst-timezones"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 
 [[package]]
 name = "distinst-utils"
 version = "0.1.0"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "sedregex",
 ]
@@ -767,6 +767,7 @@ checksum = "3f722aa875298d34a0ebb6004699f6f4ea830d36dec8ac2effdbbc840248a096"
 [[package]]
 name = "fstab-generate"
 version = "0.1.2"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "disk-types",
  "partition-identity",
@@ -1171,6 +1172,7 @@ checksum = "b7e5500299e16ebb147ae15a00a942af264cf3688f47923b8fc2cd5858f23ad3"
 [[package]]
 name = "os-detect"
 version = "0.2.2"
+source = "git+https://github.com/pop-os/distinst?branch=pop-container-changes#06944604755334df0c97c8052a525d6cea8c6a4d"
 dependencies = [
  "log",
  "os-release",
