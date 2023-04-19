@@ -5,12 +5,13 @@ use std::io::{self, BufRead, BufReader};
 use std::process::{Command, ExitStatus, Stdio};
 use std::{fs, str};
 
+use clap::{Parser, ValueEnum};
 use distinst::chroot::Chroot;
 use distinst::steps::configure::ChrootConfigurator;
 use log::info;
 use sudo;
 
-use packages::{RUNTIME, RUNTIME_CLEANUP};
+use packages::{RUNTIME, INTERACTIVE, RUNTIME_CLEANUP};
 
 const CODENAME: &str = "jammy";
 const POPKEY: &str = "204DD8AEC33A7AFF";
@@ -19,7 +20,53 @@ const POPKEY_PATHS: [&str; 2] = [
     "/usr/share/keyrings/pop-archive-keyring.gpg",
 ];
 
+#[derive(Parser)]
+#[command(author, version, about)]
+struct Args {
+    #[arg(default_value_t = ContainerType::Runtime, value_enum)]
+    /// The type of Pop!_OS container that you would like to build.
+    ///
+    /// There are two options "Runtime" and "Interactive"
+    ///
+    /// Runtime => A small container. Useful in a cloud cluster.
+    ///
+    /// Interactive => A similar cli environtment to Pop desktop.
+    ///
+    ///                Useful in a containerized development environment.
+    ///
+    ///
+    /// Example: pop-container-builder interactive
+    container: ContainerType,
+    #[arg(short, long)]
+    /// Additional delelopment branches to add to the container
+    ///
+    /// during build time. This takes the same inputs as the `apt-manage`
+    ///
+    /// command.
+    ///
+    ///
+    /// Exmaple pop-contaienr-builder runtime --add master another-branch
+    add: Vec<String>,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+enum ContainerType {
+  Runtime,
+  Interactive,
+}
+
+impl std::fmt::Display for ContainerType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ContainerType::Runtime => write!(f, "runtime"),
+            ContainerType::Interactive => write!(f, "interactive"),
+        }
+    }
+}
+
 fn main() -> Result<(), Errors> {
+    let cli = Args::parse();
+
     let username = get_username();
     sudo::escalate_if_needed()?;
     env_logger::Builder::from_env(

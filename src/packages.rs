@@ -1,4 +1,5 @@
-pub const RUNTIME: [&str; 1] = ["pop-keyring"];
+pub const RUNTIME: [&str; 1] = ["pop-container-runtime"];
+pub const INTERACTIVE: [&str; 1] = ["pop-container-interactive"];
 
 // Packages to be removed after container build
 pub const RUNTIME_CLEANUP: [&str; 119] = [
