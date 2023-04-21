@@ -154,7 +154,9 @@ fn main() -> Result<(), Errors> {
             ContainerType::Interactive => &INTERACTIVE,
         })?;
         info!("Removing build packages");
-        chroot.apt_remove(&RUNTIME_CLEANUP)?;
+        if args.container == ContainerType::Runtime {
+          chroot.apt_remove(&RUNTIME_CLEANUP)?;
+        }
     }
 
     // Name and save out container
@@ -173,6 +175,9 @@ fn main() -> Result<(), Errors> {
 
     if let Some(user) = username {
         Command::new("chown")
+            .args([&user, &file_name])
+            .status()?;
+        Command::new("chgrp")
             .args([&user, &file_name])
             .status()?;
     }
@@ -220,7 +225,7 @@ fn watch(mut command: Command) -> Result<ExitStatus, std::io::Error> {
         let stdout_lines = stdout_reader.lines();
 
         for line in stdout_lines {
-            println!("{}", line.unwrap_or(String::new()));
+            info!("{}", line.unwrap_or(String::new()));
         }
     }
 
