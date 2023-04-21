@@ -8,6 +8,10 @@ sudo apt install -y \
        chown \
        debootstrap \
        podman \
+       libdbus-1-dev \
+       libparted-dev \
+       pkg-config \
+       clang \
        rust-all
 ```
 
