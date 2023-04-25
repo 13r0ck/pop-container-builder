@@ -48,6 +48,11 @@ struct Args {
     ///
     /// Exmaple pop-contaienr-builder runtime --add master another-branch
     add: Vec<String>,
+    #[arg(short, long)]
+    /// Additional packages to install into container.
+    ///
+    /// Exmaple pop-contaienr-builder runtime --package firefox
+    package: Vec<String>,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
@@ -145,17 +150,21 @@ fn main() -> Result<(), Errors> {
             )])?;
         }
 
-        // Finish install
+        // Update and install packages
         info!("Installing Updates.");
         chroot.apt_update()?;
         chroot.apt_upgrade()?;
+        // install mandatory packages for contaienr type
         chroot.apt_install(match args.container {
             ContainerType::Runtime => &RUNTIME,
             ContainerType::Interactive => &INTERACTIVE,
         })?;
+        // install optional packages from `--package` flag
+        chroot.apt_install(&args.package.iter().map(|p| &**p).collect::<Vec<&str>>()[..])?;
+
         info!("Removing build packages");
         if args.container == ContainerType::Runtime {
-          chroot.apt_remove(&RUNTIME_CLEANUP)?;
+            chroot.apt_remove(&RUNTIME_CLEANUP)?;
         }
     }
 
@@ -169,17 +178,11 @@ fn main() -> Result<(), Errors> {
     Command::new("podman")
         .args(["save", "-o", &file_name, &name])
         .status()?;
-    Command::new("buildah")
-        .args(["rmi", &name])
-        .status()?;
+    Command::new("buildah").args(["rmi", &name]).status()?;
 
     if let Some(user) = username {
-        Command::new("chown")
-            .args([&user, &file_name])
-            .status()?;
-        Command::new("chgrp")
-            .args([&user, &file_name])
-            .status()?;
+        Command::new("chown").args([&user, &file_name]).status()?;
+        Command::new("chgrp").args([&user, &file_name]).status()?;
     }
 
     Ok(())
