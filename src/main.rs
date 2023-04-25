@@ -46,12 +46,12 @@ struct Args {
     /// command.
     ///
     ///
-    /// Exmaple pop-contaienr-builder runtime --add master another-branch
+    /// Exmaple pop-contaienr-builder runtime --add master --add another-branch
     add: Vec<String>,
     #[arg(short, long)]
     /// Additional packages to install into container.
     ///
-    /// Exmaple pop-contaienr-builder runtime --package firefox
+    /// Exmaple pop-contaienr-builder runtime --package firefox --package chrome-stable
     package: Vec<String>,
 }
 
